@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <header data-bs-theme="dark">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">WE-CINE</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url('homepage') }}">Home</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <!-- Marketing messaging and featurettes
+        ================================================== -->
+        <!-- Wrap the rest of the page in another container to center all the content. -->
+
+        <div class="container marketing">
+            <div class="row mb-3">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-2"></div>
+                    <div class="col-md-auto">
+                        <iframe src="{{ video }}" width="640" height="267"
+                                allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="col col-lg-2"></div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4 themed-grid-col">
+                    <fieldset>
+                        <legend>Choose your genres</legend>
+                        <form id="genres_form" method="get" action="{{ url('homepage') }}">
+                            <ul>
+                                {% for index, genre in genres %}
+                                    <li>
+                                        <div class="form-check genres">
+                                            <input class="form-check-input" type="checkbox" name="genres[]"
+                                                   value="{{ genre.id }}" id="{{ genre.id }}" {% if(genre.id in app.request.query.get('genres')) %} checked="checked" {% endif %}>
+                                            <label class="form-check-label" for="{{ genre.id }}">
+                                                {{ genre.name }}
+                                            </label>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="col-md-8 themed-grid-col">
+                    {{ movies.total_results }} Movies
+                    <br/>
+                    <br/>
+                    <ul>
+                        {% for movie in movies.movies %}
+                            <li>
+                                <div class="card mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="{{ movie.poster }}" style="max-height: 300px;"
+                                                 class="img-fluid rounded-start">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ movie.title }}</h5>
+                                                <p class="card-text">{{ movie.overview }}</p>
+                                                <p class="card-text"><small class="text-body-secondary">Last updated 3
+                                                        mins ago</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /.container -->
+
+
+        <!-- FOOTER -->
+        <footer class="container">
+            <p class="float-end"><a href="#">Back to top</a></p>
+            <p>© 2017–2023 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+        </footer>
+    </main>
+{% endblock %}
+{% block customjs %}
+{% endblock %}

@@ -1,0 +1,14 @@
+version: '3.9'
+    
+services:
+  webserver:
+    container_name: wecine_webserver
+    build:
+      context: ./docker/php-apache
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html:z
+      - ./docker/php-apache/sites-available/wecine.conf:/etc/apache2/sites-available/000-default.conf
+      - ./docker/php-apache/sites-available/wecine.conf:/etc/apache2/sites-enabled/000-default.conf
+    ports:
+      - 80:80
